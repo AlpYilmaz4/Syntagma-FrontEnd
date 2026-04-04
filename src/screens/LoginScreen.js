@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.logo}>Syntagma</Text>
+          <Text style={styles.logo}>Syntagmaaa</Text>
 
           <View style={styles.imageCard}>
             <Image
