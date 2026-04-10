@@ -6,6 +6,7 @@ import {
   Linking,
   Platform,
   Pressable,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -220,47 +221,53 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
 
           {detailsOpen && (
             <Animated.View style={[styles.detailsContent, { opacity: detailsAnim, transform: [{ translateY: detailTranslateY }] }]}>
-              <View style={styles.translationPill}>
-                <Text style={styles.translationFlag}>🇹🇷</Text>
-                <Text style={styles.translationText}>{activeCard.translation}</Text>
-              </View>
-
-              <Text style={styles.sentenceTrText}>{activeCard.sentenceTranslation || '-'}</Text>
-
-              {(activeCard.englishPronunciationUri || activeCard.turkishPronunciationUri) && (
-                <View style={styles.pronunciationRow}>
-                  {activeCard.englishPronunciationUri && (
-                    <Pressable
-                      style={styles.pronunciationButton}
-                      onPress={() => handlePronunciation('en', activeCard.englishPronunciationUri)}
-                    >
-                      <Ionicons name="volume-high-outline" size={18} color="#6B4226" />
-                      <Text style={styles.pronunciationButtonText}>EN Pronunciation</Text>
-                    </Pressable>
-                  )}
-                  {activeCard.turkishPronunciationUri && (
-                    <Pressable
-                      style={styles.pronunciationButton}
-                      onPress={() => handlePronunciation('tr', activeCard.turkishPronunciationUri)}
-                    >
-                      <Ionicons name="volume-high-outline" size={18} color="#6B4226" />
-                      <Text style={styles.pronunciationButtonText}>TR Pronunciation</Text>
-                    </Pressable>
-                  )}
+              <ScrollView
+                style={styles.detailsScroll}
+                contentContainerStyle={styles.detailsScrollContent}
+                showsVerticalScrollIndicator={false}
+              >
+                <View style={styles.translationPill}>
+                  <Text style={styles.translationFlag}>🇹🇷</Text>
+                  <Text style={styles.translationText}>{activeCard.translation}</Text>
                 </View>
-              )}
 
-              <View style={styles.imageWrap}>{imageNode}</View>
+                <Text style={styles.sentenceTrText}>{activeCard.sentenceTranslation || '-'}</Text>
 
-              <View style={styles.bottomDecisionRowInside}>
-                <Pressable style={[styles.answerButton, styles.againButton]} onPress={() => handleAnswer(Rating.Again)}>
-                  <Text style={styles.againButtonText}>I don't know</Text>
-                </Pressable>
+                {(activeCard.englishPronunciationUri || activeCard.turkishPronunciationUri) && (
+                  <View style={styles.pronunciationRow}>
+                    {activeCard.englishPronunciationUri && (
+                      <Pressable
+                        style={styles.pronunciationButton}
+                        onPress={() => handlePronunciation('en', activeCard.englishPronunciationUri)}
+                      >
+                        <Ionicons name="volume-high-outline" size={18} color="#6B4226" />
+                        <Text style={styles.pronunciationButtonText}>EN Pronunciation</Text>
+                      </Pressable>
+                    )}
+                    {activeCard.turkishPronunciationUri && (
+                      <Pressable
+                        style={styles.pronunciationButton}
+                        onPress={() => handlePronunciation('tr', activeCard.turkishPronunciationUri)}
+                      >
+                        <Ionicons name="volume-high-outline" size={18} color="#6B4226" />
+                        <Text style={styles.pronunciationButtonText}>TR Pronunciation</Text>
+                      </Pressable>
+                    )}
+                  </View>
+                )}
 
-                <Pressable style={[styles.answerButton, styles.goodButton]} onPress={() => handleAnswer(Rating.Good)}>
-                  <Text style={styles.goodButtonText}>I know</Text>
-                </Pressable>
-              </View>
+                <View style={styles.imageWrap}>{imageNode}</View>
+
+                <View style={styles.bottomDecisionRowInside}>
+                  <Pressable style={[styles.answerButton, styles.againButton]} onPress={() => handleAnswer(Rating.Again)}>
+                    <Text style={styles.againButtonText}>I don't know</Text>
+                  </Pressable>
+
+                  <Pressable style={[styles.answerButton, styles.goodButton]} onPress={() => handleAnswer(Rating.Good)}>
+                    <Text style={styles.goodButtonText}>I know</Text>
+                  </Pressable>
+                </View>
+              </ScrollView>
             </Animated.View>
           )}
         </Pressable>
@@ -333,6 +340,7 @@ const styles = StyleSheet.create({
     paddingTop: 28,
     paddingBottom: 22,
     alignItems: 'center',
+    overflow: 'hidden',
   },
   cardFrameExpanded: {
     flex: 1,
@@ -372,6 +380,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     flex: 1,
+  },
+  detailsScroll: {
+    width: '100%',
+    flex: 1,
+  },
+  detailsScrollContent: {
+    paddingBottom: 2,
   },
   translationPill: {
     flexDirection: 'row',
