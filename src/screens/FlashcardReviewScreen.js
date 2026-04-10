@@ -208,7 +208,7 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
         <Pressable
           onPress={openDetails}
           disabled={detailsOpen}
-          style={({ pressed }) => [styles.cardFrame, pressed && !detailsOpen && styles.cardFramePressed]}
+          style={({ pressed }) => [styles.cardFrame, detailsOpen && styles.cardFrameExpanded, pressed && !detailsOpen && styles.cardFramePressed]}
         >
           <Text style={styles.wordText}>{activeCard.word}</Text>
           <Text style={styles.sentenceText}>{`"${activeCard.sentence}"`}</Text>
@@ -250,6 +250,8 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
                 </View>
               )}
 
+              <View style={styles.imageWrap}>{imageNode}</View>
+
               <View style={styles.bottomDecisionRowInside}>
                 <Pressable style={[styles.answerButton, styles.againButton]} onPress={() => handleAnswer(Rating.Again)}>
                   <Text style={styles.againButtonText}>I don't know</Text>
@@ -259,8 +261,6 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
                   <Text style={styles.goodButtonText}>I know</Text>
                 </Pressable>
               </View>
-
-              <View style={styles.imageWrap}>{imageNode}</View>
             </Animated.View>
           )}
         </Pressable>
@@ -328,10 +328,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 24,
     boxSizing: 'border-box',
+    width: '100%',
     paddingHorizontal: 22,
     paddingTop: 28,
     paddingBottom: 22,
     alignItems: 'center',
+  },
+  cardFrameExpanded: {
+    flex: 1,
   },
   cardFramePressed: {
     opacity: 0.96,
@@ -367,6 +371,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
     width: '100%',
     alignItems: 'center',
+    flex: 1,
   },
   translationPill: {
     flexDirection: 'row',
@@ -416,27 +421,27 @@ const styles = StyleSheet.create({
     fontFamily: 'DMSans_600SemiBold',
   },
   imageWrap: {
-    marginTop: 16,
+    marginTop: 14,
     width: '100%',
     borderRadius: 16,
     overflow: 'hidden',
   },
   contextImage: {
     width: '100%',
-    height: 170,
+    height: 150,
     borderRadius: 16,
   },
   imageFallback: {
     width: '100%',
-    height: 170,
+    height: 150,
     borderRadius: 16,
     backgroundColor: '#F5C849',
   },
   bottomDecisionRowInside: {
     flexDirection: 'row',
     gap: 12,
-    marginTop: 14,
-    marginBottom: 8,
+    marginTop: 12,
+    marginBottom: 0,
     width: '100%',
   },
   answerButton: {
