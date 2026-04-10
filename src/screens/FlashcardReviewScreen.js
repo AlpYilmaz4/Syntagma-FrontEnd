@@ -14,7 +14,7 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DEFAULT_CARDS = [
   {
@@ -70,7 +70,6 @@ export const Rating = Object.freeze({
 });
 
 export default function FlashcardReviewScreen({ route, navigation, onReview, onPlayPronunciation }) {
-  const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const cards = route.params?.cards?.length ? route.params.cards : DEFAULT_CARDS;
   const requestedStartIndex = route.params?.startIndex ?? 0;
@@ -251,9 +250,7 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
                 </View>
               )}
 
-              <View style={styles.imageWrap}>{imageNode}</View>
-
-              <View style={[styles.bottomDecisionRowInside, { paddingBottom: Math.max(insets.bottom + 4, 12) }]}> 
+              <View style={styles.bottomDecisionRowInside}>
                 <Pressable style={[styles.answerButton, styles.againButton]} onPress={() => handleAnswer(Rating.Again)}>
                   <Text style={styles.againButtonText}>I don't know</Text>
                 </Pressable>
@@ -262,6 +259,8 @@ export default function FlashcardReviewScreen({ route, navigation, onReview, onP
                   <Text style={styles.goodButtonText}>I know</Text>
                 </Pressable>
               </View>
+
+              <View style={styles.imageWrap}>{imageNode}</View>
             </Animated.View>
           )}
         </Pressable>
@@ -424,12 +423,12 @@ const styles = StyleSheet.create({
   },
   contextImage: {
     width: '100%',
-    height: 220,
+    height: 170,
     borderRadius: 16,
   },
   imageFallback: {
     width: '100%',
-    height: 220,
+    height: 170,
     borderRadius: 16,
     backgroundColor: '#F5C849',
   },
@@ -437,6 +436,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginTop: 14,
+    marginBottom: 8,
     width: '100%',
   },
   answerButton: {
