@@ -23,16 +23,24 @@ function HomeStack() {
   );
 }
 
-function TabIcon({ focused, icon, name }) {
+function TabIcon({ focused, icon }) {
+  const tintColor = focused ? '#6B4226' : '#8A7A6A';
+
   if (focused) {
     return (
-      <View style={styles.activeTabIconWrap}>
-        <Ionicons name={icon} size={22} color="#6B4226" />
+      <View style={styles.activeTabWrap}>
+        <View style={styles.activeTabIconWrap}>
+          <Ionicons name={icon} size={22} color={tintColor} />
+        </View>
       </View>
     );
   }
 
-  return <Ionicons name={name} size={22} color="#8A7A6A" />;
+  return (
+    <View style={styles.inactiveTabWrap}>
+      <Ionicons name={icon} size={22} color={tintColor} />
+    </View>
+  );
 }
 
 export default function MainTabs() {
@@ -43,23 +51,80 @@ export default function MainTabs() {
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
         tabBarIcon: ({ focused }) => {
-          if (route.name === 'Home') {
-            return <TabIcon focused={focused} icon="home" name="home-outline" />;
+          if (route.name === 'Sanctuary') {
+            return <TabIcon focused={focused} icon="home-outline" />;
           }
-          if (route.name === 'Overview') {
-            return <TabIcon focused={focused} icon="book" name="book-outline" />;
+          if (route.name === 'Library') {
+            return <TabIcon focused={focused} icon="book-outline" />;
           }
-          if (route.name === 'Flashcards') {
-            return <TabIcon focused={focused} icon="search" name="search-outline" />;
+          if (route.name === 'Progress') {
+            return <TabIcon focused={focused} icon="bar-chart-outline" />;
           }
-          return <TabIcon focused={focused} icon="person" name="person-outline" />;
+          return <TabIcon focused={focused} icon="person-outline" />;
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Overview" component={OverviewScreen} />
-      <Tab.Screen name="Flashcards" component={FlashcardReviewScreen} initialParams={{ language: 'English' }} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Sanctuary" component={HomeStack} />
+      <Tab.Screen
+        name="Library"
+        component={FlashcardReviewScreen}
+        initialParams={{
+          cards: [
+            {
+              word: 'match',
+              phonetic: '/mætʃ/',
+              sentence: 'The colors should match the style of the page.',
+              translation: 'eşleşmek',
+              sentenceTranslation: 'Renkler sayfanın stiliyle eşleşmeli.',
+              englishPronunciationUri:
+                'https://ssl.gstatic.com/dictionary/static/sounds/20200429/match--_gb_1.mp3',
+              turkishPronunciationUri:
+                'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=tr&q=e%C5%9Fle%C5%9Fmek',
+            },
+            {
+              word: 'focus',
+              phonetic: '/ˈfoʊ.kəs/',
+              sentence: 'Try to focus on one sentence at a time.',
+              translation: 'odaklanmak',
+              sentenceTranslation: 'Bir seferde tek bir cümleye odaklanmaya çalış.',
+              englishPronunciationUri:
+                'https://ssl.gstatic.com/dictionary/static/sounds/20200429/focus--_gb_1.mp3',
+              turkishPronunciationUri:
+                'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=tr&q=odaklanmak',
+            },
+            {
+              word: 'script',
+              phonetic: '/ˈskrɪpt/',
+              sentence: 'He is writing a script for a new movie.',
+              translation: 'senaryo',
+              sentenceTranslation: 'Yeni bir film için senaryo yazıyor.',
+              englishPronunciationUri:
+                'https://ssl.gstatic.com/dictionary/static/sounds/20200429/script--_gb_1.mp3',
+              turkishPronunciationUri:
+                'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=tr&q=senaryo',
+              imageUri:
+                'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=80',
+            },
+            {
+              word: 'adapt',
+              phonetic: '/əˈdæpt/',
+              sentence: 'You can adapt your tone to your audience.',
+              translation: 'uyarlamak',
+              sentenceTranslation: 'Tonunu dinleyicine göre uyarlayabilirsin.',
+            },
+            {
+              word: 'clarify',
+              phonetic: '/ˈkler.ə.faɪ/',
+              sentence: 'Please clarify the meaning with one example.',
+              translation: 'açıklığa kavuşturmak',
+              sentenceTranslation: 'Lütfen anlamı bir örnekle açıklığa kavuştur.',
+            },
+          ],
+          startIndex: 0,
+        }}
+      />
+      <Tab.Screen name="Progress" component={OverviewScreen} />
+      <Tab.Screen name="Profile" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
@@ -71,15 +136,23 @@ const styles = StyleSheet.create({
     borderTopColor: '#DDD3C4',
     elevation: 0,
     shadowOpacity: 0,
-    height: 76,
+    height: 92,
     paddingBottom: 10,
     paddingTop: 8,
   },
+  activeTabWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   activeTabIconWrap: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: '#F5C49A',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inactiveTabWrap: {
     alignItems: 'center',
     justifyContent: 'center',
   },
